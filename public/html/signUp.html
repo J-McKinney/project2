@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<header>
+    <title>SLR Sign-Up</title>
+    <!-- BootStrap -->
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'
+        integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous'>
+    <!-- BootStrap jQuery -->
+    <script src='https://code.jquery.com/jquery-3.3.1.slim.min.js'
+        integrity='sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo'
+        crossorigin='anonymous'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js'
+        integrity='sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1'
+        crossorigin='anonymous'></script>
+    <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'
+        integrity='sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM'
+        crossorigin='anonymous'></script>
+    <!-- Ajax -->
+    <script src='https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js'></script>
+    <!-- Firebase -->
+    <script src='https://www.gstatic.com/firebasejs/4.12.0/firebase.js'></script>
+    <link rel='stylesheet' href='../styles/signUp.css'>
+</header>
+
+<body background>
+    <br><br>
+    <br><br><br>
+    <form style="border:1px solid #ccc" id="Forum"> 
+        <div class="container">
+            <h1>Sign Up</h1>
+            <p>Please fill in this form to create an account.</p>
+            <hr>
+
+            <label for="name"><b>Name</b></label>
+            <input type="text" placeholder="Enter First and Last name" id="name" name="name" required>
+
+            <label for="email"><b>Email</b></label>
+            <input type="text" placeholder="Enter Email" id="email" name="email" required>
+
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" id="password" name="password" required>
+
+            <label for="psw-repeat"><b>Confirm Password</b></label>
+            <input type="password" placeholder="Confirm Password" id="confirm" name="confirm" required>
+
+            <div class="clearfix">
+                <button type="submit" class="signup">Sign Up</button>
+                <button type="button" class="cancel">Cancel</button>
+            </div>
+        </div>
+    </form>
+</body>
+<script type='text/javascript'>
+
+    const config = {
+        apiKey: "AIzaSyB_m_T5HTRv8nJag2AiCxVKk-9ft_k0BzY",
+        authDomain: "project-2-a5345.firebaseapp.com",
+        databaseURL: "https://project-2-a5345.firebaseio.com",
+        projectId: "project-2-a5345",
+        storageBucket: "project-2-a5345.appspot.com",
+        messagingSenderId: "649772621947",
+        appId: "1:649772621947:web:36fce6153aa474885ec2de"
+    };
+
+    firebase.initializeApp(config);
+
+    var database = firebase.database();
+
+    $(".signup").on("click", function (event) {
+        var newUser = {};
+        event.preventDefault();
+        console.log($("#password").val().trim() + " " + $("#confirm").val().trim())
+        if ($("#password").val().trim() === $("#confirm").val().trim()) {
+            newUser = {
+                email: $("#email")
+                    .val()
+                    .trim(),
+                name: $("#name")
+                    .val()
+                    .trim(),
+                password: $("#password")
+                    .val()
+                    .trim()
+            };
+        }
+
+        const auth = firebase.auth();
+        console.log(email + " " + password);
+        const promise = auth.createUserWithEmailAndPassword(newUser.email, newUser.password);
+        $("#displayError").text("");
+
+        promise.then(data => {
+            console.log(data);
+            $.ajax({
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                type: "POST",
+                url: "/signUp/new",
+                data: JSON.stringify(newUser)
+            });
+        });
+
+        promise.catch(e => {
+            console.log(e.message);
+            $("#displayError").text(e.message);
+        });
+    });
+
+    firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+            window.location.href = "/home";
+        } else {
+
+        }
+    });
+
+    $(".cancel").on("click", function () {
+        window.location.href = "/";
+    });
+</script>
+
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<head>
+  <title>Welcome to SLR</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'
+    integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous'>
+  <!-- BootStrap jQuery -->
+  <script src='https://code.jquery.com/jquery-3.3.1.slim.min.js'
+    integrity='sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo'
+    crossorigin='anonymous'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js'
+    integrity='sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1'
+    crossorigin='anonymous'></script>
+  <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js'
+    integrity='sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM'
+    crossorigin='anonymous'></script>
+  <!-- Ajax -->
+  <script src='https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js'></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.0.0/lumen/bootstrap.min.css" />
+  <!-- Firebase -->
+  <script src='https://www.gstatic.com/firebasejs/4.12.0/firebase.js'></script>
+  <link rel="stylesheet" href="../styles/index.css">
+</head>
+
+<body>
+  <div id="container">
+    <div class="jumbotron">
+      <h1 class="display-4">Welcome to SLR</h1>
+      <p class="lead">We are here to help any and every college student! We want to be able to assist students who need
+        help but
+        do not have enough moolah to pay for it. In order to do so you can earn credits by helping out other students
+        with any level of expertise you may have.
+
+      </p>
+      <hr class="my-4">
+      <p>Get started by creating an account or logging in</p>
+      <a class="btn btn-light btn-lg" href="/signIn" role="button">Sign In </a>
+      <a class="btn btn-light btn-lg" href="/signUp" role="button">Sign up </a>
+    </div>
+  </div>
+
+  <script>
+    const config = {
+      apiKey: "AIzaSyB_m_T5HTRv8nJag2AiCxVKk-9ft_k0BzY",
+      authDomain: "project-2-a5345.firebaseapp.com",
+      databaseURL: "https://project-2-a5345.firebaseio.com",
+      projectId: "project-2-a5345",
+      storageBucket: "project-2-a5345.appspot.com",
+      messagingSenderId: "649772621947",
+      appId: "1:649772621947:web:36fce6153aa474885ec2de"
+    };
+
+    firebase.initializeApp(config);
+
+    var database = firebase.database();
+
+    var currentURL = window.location.origin;
+
+    firebase.auth().onAuthStateChanged(fbUser => {
+      if (fbUser) {
+        window.location.href = "/home";
+      }
+    });
+
+    $("#signOut").on("click", function () {
+      firebase.auth().signOut();
+    });
+  </script>
+</body>
+
+</html>
